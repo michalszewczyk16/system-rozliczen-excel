@@ -2,53 +2,66 @@ Automatyzacja obsługi plików Excel - System Rozliczeń HR
 
 1. Opis Projektu
 
-Projekt to zautomatyzowane narzędzie napisane w języku Python, służące do agregacji, walidacji i przeliczania danych kadrowo-płacowych rozproszonych w wielu plikach Excel. Skrypt eliminuje konieczność ręcznego przepisywania danych, minimalizując ryzyko błędu ludzkiego.
+Projekt to zautomatyzowane narzędzie w języku Python, służące do agregacji, walidacji i przeliczania danych kadrowo-płacowych rozproszonych w wielu plikach Excel. Skrypt automatyzuje proces, minimalizując ryzyko błędu ludzkiego przy ręcznym wprowadzaniu danych.
 
 Główne funkcjonalności:
 
-Wczytywanie danych: Automatyczne pobieranie danych z pliku bazowego (dane pracowników) oraz plików szczegółowych (raporty godzinowe z poszczególnych tygodni).
+Wczytywanie danych: Pobieranie danych z pliku bazowego (pracownicy) oraz plików tygodniowych (godziny pracy).
 
-Walidacja: Sprawdzanie kompletności danych (brakujące wartości, ujemne godziny, niepoprawne typy danych).
+Walidacja: Weryfikacja kompletności danych oraz odrzucanie rekordów z ujemnymi wartościami godzin.
 
-Scalanie (Merge): Łączenie danych z wielu plików na podstawie unikalnego klucza (ID_Pracownika).
+Scalanie (Merge): Łączenie danych z wielu źródeł na podstawie unikalnego klucza ID_Pracownika.
 
-Obliczenia: Agregacja przepracowanych godzin i wyliczanie całkowitego wynagrodzenia (Godziny * Stawka).
+Obliczenia: Agregacja godzin pracy oraz wyliczanie wynagrodzenia (Godziny * Stawka).
 
-Raportowanie: Generowanie wieloarkuszowego pliku raport_koncowy.xlsx zawierającego szczegółowe zestawienie oraz ogólne podsumowanie finansowe dla firmy.
+Raportowanie: Generowanie czytelnego pliku raport_koncowy.xlsx z podziałem na szczegóły i podsumowania.
 
 2. Wymagania Techniczne i Instalacja
 
-Aby uruchomić projekt, upewnij się, że posiadasz zainstalowanego Pythona (wersja 3.8+) oraz niezbędne biblioteki zewnętrzne.
+Do uruchomienia projektu wymagany jest Python w wersji 3.8 lub wyższej oraz biblioteki pandas i openpyxl.
+
+Instalacja bibliotek:
+
+Otwórz terminal w folderze projektu i wykonaj:
 
 pip install pandas openpyxl
 
 
 3. Struktura Danych Wejściowych
 
-Projekt wymaga przygotowania plików w następującym formacie:
+Projekt wymaga plików Excel w następującym formacie:
 
 Plik bazowy: pracownicy.xlsx
 
-ID_Pracownika (np. 1, 2, 3...)
+ID_Pracownika: Unikalny numer pracownika (np. 1, 2, 3).
 
-Imie (Tekst)
+Imie: Imię pracownika (tekst).
 
-Nazwisko (Tekst)
+Nazwisko: Nazwisko pracownika (tekst).
 
-Dzial (Tekst, np. IT, HR, Sprzedaż)
+Dzial: Dział firmy (np. IT, HR, Sprzedaż).
 
-Stawka_Godzinowa (Liczba, np. 50.0, 120.0)
+Stawka_Godzinowa: Stawka za godzinę (liczba zmiennoprzecinkowa).
 
-Pliki szczegółowe (np. godziny_tydzien1.xlsx, godziny_tydzien2.xlsx):
+Pliki szczegółowe: godziny_tydzienX.xlsx
 
-ID_Pracownika (Klucz obcy)
+ID_Pracownika: Identyfikator dopasowany do bazy pracowników.
 
-Przepracowane_Godziny (Liczba)
+Przepracowane_Godziny: Liczba przepracowanych godzin (liczba dodatnia).
 
-4. Oczekiwany Wynik (Raport Końcowy)
+4. Uruchomienie
 
-Skrypt wygeneruje plik raport_koncowy.xlsx składający się z dwóch arkuszy:
+Przygotuj pliki wejściowe w katalogu projektu.
 
-Szczegóły_Rozliczen: Tabela zawierająca połączone dane każdego pracownika wraz ze zsumowanymi godzinami i wyliczonym wynagrodzeniem całkowitym.
+Uruchom skrypt generujący raport:
 
-Podsumowanie_Dzialow: Zgrupowane dane prezentujące całkowity koszt wynagrodzeń i sumę godzin w rozbiciu na poszczególne działy w firmie.
+python main.py
+
+
+Oczekiwany wynik: W katalogu pojawi się plik raport_koncowy.xlsx zawierający arkusz ze szczegółami rozliczeń oraz zestawienie zbiorcze.
+
+5. Testowanie
+
+W projekcie znajduje się skrypt test_main.py umożliwiający weryfikację logiki obliczeń. Uruchom go komendą:
+
+python test_main.py
